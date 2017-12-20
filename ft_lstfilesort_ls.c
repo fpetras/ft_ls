@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstfilesort_ls.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/18 10:19:26 by fpetras           #+#    #+#             */
-/*   Updated: 2017/12/20 13:34:58 by fpetras          ###   ########.fr       */
+/*   Created: 2017/12/18 14:43:35 by fpetras           #+#    #+#             */
+/*   Updated: 2017/12/19 16:09:37 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int		main(int ac, char **av)
+t_list	*ft_lstfilesort_ls(t_list *lst)
 {
-	int			i;
-	t_options	ls;
+	void		*swap;
+	t_list		*tmp;
 
-	i = 1;
-	ft_bzero(&ls, sizeof(t_options));
-	if (ac > 1)
-		if (!(i = ft_parse_options(ac, av, &ls)))
-			return (0);
-	if (!av[i] || (!ft_strcmp(".", av[i]) && !av[i + 1]))
-		ft_process_directory(av[i], &ls);
-	else
-		ft_get_operands(i, ac, av, &ls);
-	return (0);
+	tmp = lst;
+	while (lst && lst->next)
+	{
+		if (!ft_is_file(lst->content) && ft_is_file(lst->next->content))
+		{
+			swap = lst->content;
+			lst->content = lst->next->content;
+			lst->next->content = swap;
+			lst = tmp;
+		}
+		else
+			lst = lst->next;
+	}
+	lst = tmp;
+	return (lst);
 }
