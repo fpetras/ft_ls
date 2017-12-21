@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstrevsort_ls.c                                 :+:      :+:    :+:   */
+/*   ft_lstfree_ls.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/18 14:43:35 by fpetras           #+#    #+#             */
-/*   Updated: 2017/12/21 09:47:40 by fpetras          ###   ########.fr       */
+/*   Created: 2017/12/21 07:26:09 by fpetras           #+#    #+#             */
+/*   Updated: 2017/12/21 13:59:13 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_list	*ft_lstrevsort_ls(t_list *lst)
+void	ft_lstfree_ls(t_list *lst)
 {
-	void	*swap;
-	t_list	*tmp;
+	t_list *tmp;
 
-	tmp = lst;
-	while (lst && lst->next)
+	while (lst)
 	{
-		if (ft_strcmp(lst->content, lst->next->content) < 0)
-		{
-			swap = lst->content;
-			lst->content = lst->next->content;
-			lst->next->content = swap;
-			lst = tmp;
-		}
-		else
-			lst = lst->next;
+		tmp = lst;
+		if (tmp->content)
+			free(tmp->content);
+		free(tmp);
+		lst = lst->next;
 	}
-	lst = tmp;
-	return (lst);
 }

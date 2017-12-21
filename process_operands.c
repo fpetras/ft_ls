@@ -6,7 +6,7 @@
 /*   By: fpetras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/20 13:33:31 by fpetras           #+#    #+#             */
-/*   Updated: 2017/12/20 17:36:59 by fpetras          ###   ########.fr       */
+/*   Updated: 2017/12/21 14:39:55 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	ft_sort_operands(t_list *ops, t_options *ls)
 	{
 		ft_lstrevsort_ls(ops);
 		ft_lstfilesort_ls(ops);
+		ft_lstinvalidsort_ls(ops);
 	}
 	ft_process_operands(ops, ls);
 }
@@ -62,4 +63,5 @@ void	ft_get_operands(int i, int ac, char **av, t_options *ls)
 		i++;
 	}
 	ft_sort_operands(ops, ls);
+	ft_lstfree_ls(ops);
 }

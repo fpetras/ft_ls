@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstrevsort_ls.c                                 :+:      :+:    :+:   */
+/*   ft_lstinvalidsort_ls.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fpetras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/18 14:43:35 by fpetras           #+#    #+#             */
-/*   Updated: 2017/12/21 09:47:40 by fpetras          ###   ########.fr       */
+/*   Updated: 2017/12/21 07:59:07 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_list	*ft_lstrevsort_ls(t_list *lst)
+t_list	*ft_lstinvalidsort_ls(t_list *lst)
 {
-	void	*swap;
-	t_list	*tmp;
+	void		*swap;
+	t_list		*tmp;
 
 	tmp = lst;
 	while (lst && lst->next)
 	{
-		if (ft_strcmp(lst->content, lst->next->content) < 0)
+		if (ft_is_invalid(lst->content) && !ft_is_invalid(lst->next->content))
 		{
 			swap = lst->content;
 			lst->content = lst->next->content;

@@ -6,7 +6,7 @@
 /*   By: fpetras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 11:35:42 by fpetras           #+#    #+#             */
-/*   Updated: 2017/12/21 09:53:09 by fpetras          ###   ########.fr       */
+/*   Updated: 2017/12/21 15:11:06 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ typedef struct	s_options
 }				t_options;
 
 int				ft_parse_options(int ac, char **av, t_options *ls);
-void			ft_process_directory(char *dir, t_options *ls);
 void			ft_get_operands(int i, int ac, char **av, t_options *ls);
+void			ft_process_directory(char *dir, t_options *ls);
 int				ft_is_dir(char *entry);
 int				ft_is_file(char *entry);
 int				ft_is_invalid(char *entry);

@@ -6,7 +6,7 @@
 #    By: fpetras <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/14 10:43:56 by fpetras           #+#    #+#              #
-#    Updated: 2017/12/21 11:07:34 by fpetras          ###   ########.fr        #
+#    Updated: 2017/12/21 15:10:34 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ NAME =	ft_ls
 
 SRC =	main.c \
 		parse_options.c \
-		process_directory.c \
 		process_operands.c \
+		process_directory.c \
 		utility_functions.c \
 		\
 		ft_lstlen_ls.c \

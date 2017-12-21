@@ -6,7 +6,7 @@
 /*   By: fpetras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/20 13:31:00 by fpetras           #+#    #+#             */
-/*   Updated: 2017/12/20 13:32:21 by fpetras          ###   ########.fr       */
+/*   Updated: 2017/12/21 14:46:24 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,20 @@ void	ft_display_entries(t_list *lst, t_options *ls)
 			ft_printf("%s\n", lst->content);
 		lst = lst->next;
 	}
-/*	lst = tmp;
+	lst = tmp;
 	while (ls->r_uppercase && lst)
 	{
 		str = (char*)lst->content;
-		if (ft_is_dir(str)
-			&& ft_strcmp(".", lst->content) && ft_strcmp("..", lst->content))
+		if (ft_is_dir(str) && ft_strcmp(".", str) && ft_strcmp("..", str))
 		{
-			ft_printf("\n./%s:\n", lst->content);
-			ft_process_directory(lst->content, ls);
+			if (ls->a || str[0] != '.')
+			{
+				ft_printf("\n%s:\n", lst->content);
+				ft_process_directory(lst->content, ls);
+			}
 		}
 		lst = lst->next;
-	}*/
+	}
 }
 
 void	ft_process_directory(char *dir, t_options *ls)
@@ -58,4 +60,5 @@ void	ft_process_directory(char *dir, t_options *ls)
 	if (ft_lstlen_ls(lst) > 1)
 		ls->r ? ft_lstrevsort_ls(lst) : ft_lstsort_ls(lst);
 	ft_display_entries(lst, ls);
+	ft_lstfree_ls(lst);
 }
