@@ -6,7 +6,7 @@
 /*   By: fpetras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/20 13:33:31 by fpetras           #+#    #+#             */
-/*   Updated: 2017/12/21 14:39:55 by fpetras          ###   ########.fr       */
+/*   Updated: 2017/12/29 09:04:05 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_process_operands(t_list *ops, t_options *ls)
 	tmp = NULL;
 	while (ops)
 	{
-		if (ft_is_file(ops->content))
+		if (ft_is_valid(ops->content) && !ft_is_dir(ops->content))
 			ft_printf("%s\n", ops->content);
 		else if (ft_is_dir(ops->content))
 		{
@@ -31,7 +31,7 @@ void	ft_process_operands(t_list *ops, t_options *ls)
 					ft_printf("\n");
 				ft_printf("%s:\n", ops->content);
 			}
-			ft_process_directory(ops->content, ls);
+			ft_process_directory(ops->content, ops->content, ls);
 		}
 		tmp = ops;
 		ops = ops->next;

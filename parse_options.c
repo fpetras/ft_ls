@@ -6,7 +6,7 @@
 /*   By: fpetras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 14:25:58 by fpetras           #+#    #+#             */
-/*   Updated: 2017/12/17 13:38:39 by fpetras          ###   ########.fr       */
+/*   Updated: 2017/12/29 12:12:00 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int			ft_parse_options(int ac, char **av, t_options *ls)
 				return (ft_illegal_option(av[i][j]));
 			j++;
 		}
-		if (av[i][0] != '-')
+		if (av[i][0] != '-' || !ft_strcmp("-", av[i]))
 			return (i);
 		i++;
 	}
