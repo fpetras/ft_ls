@@ -6,13 +6,13 @@
 /*   By: fpetras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/20 13:31:00 by fpetras           #+#    #+#             */
-/*   Updated: 2017/12/29 10:37:17 by fpetras          ###   ########.fr       */
+/*   Updated: 2017/12/30 12:22:15 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	ft_recursive_listing(t_list *lst, t_options *ls, char *dir)
+static void	ft_recursive_listing(t_list *lst, t_options *ls, char *dir)
 {
 	char *str;
 	char *path_dir;
@@ -23,11 +23,8 @@ void	ft_recursive_listing(t_list *lst, t_options *ls, char *dir)
 		path_dir = ft_strjoin(dir, lst->content);
 		if (ft_is_dir(path_dir) && ft_strcmp(".", str) && ft_strcmp("..", str))
 		{
-			if (ls->a || str[0] != '.')
-			{
-				ft_printf("\n%s:\n", path_dir);
-				ft_process_directory(path_dir, path_dir, ls);
-			}
+			ft_printf("\n%s:\n", path_dir);
+			ft_process_directory(path_dir, path_dir, ls);
 		}
 		lst = lst->next;
 		if (path_dir)
@@ -35,16 +32,41 @@ void	ft_recursive_listing(t_list *lst, t_options *ls, char *dir)
 	}
 }
 
-void	ft_display_entries(t_list *lst, t_options *ls, char *dir)
+static void	ft_display_blocks(t_list *lst, char *dir)
 {
-	char	*str;
+	char		*path_entry;
+	size_t		total;
+	struct stat	buf;
+
+	total = 0;
+	if (!lst)
+		return ;
+	while (lst)
+	{
+		path_entry = ft_strjoin(dir, lst->content);
+		if (lstat(path_entry, &buf) != -1)
+			total += buf.st_blocks;
+		lst = lst->next;
+		free(path_entry);
+	}
+	ft_printf("total %zu\n", total);
+}
+
+static void	ft_display_entries(t_list *lst, t_options *ls, char *dir)
+{
 	t_list	*tmp;
 
 	tmp = lst;
+	if (ls->l)
+	{
+		ft_display_blocks(lst, dir);
+		ft_padding_sizes(lst, dir, ls);
+	}
 	while (lst)
 	{
-		str = (char*)lst->content;
-		if (ls->a || str[0] != '.')
+		if (ls->l)
+			ft_print_long_format(lst->content, dir, ls);
+		else
 			ft_printf("%s\n", lst->content);
 		lst = lst->next;
 	}
@@ -53,7 +75,25 @@ void	ft_display_entries(t_list *lst, t_options *ls, char *dir)
 		ft_recursive_listing(lst, ls, dir);
 }
 
-char	*ft_path(char *parent_dir, char *dir)
+static void	ft_error(char *dir)
+{
+	int		i;
+	char	**tab;
+
+	i = 0;
+	tab = ft_strsplit(dir, '/');
+	while (tab[i + 1])
+	{
+		free(tab[i]);
+		i++;
+	}
+	ft_dprintf(2, "ft_ls: %s: %s\n", tab[i], strerror(errno));
+	free(tab[i]);
+	free(tab);
+	free(dir);
+}
+
+static char	*ft_path(char *parent_dir, char *dir)
 {
 	if (!parent_dir)
 		parent_dir = ".";
@@ -69,24 +109,7 @@ char	*ft_path(char *parent_dir, char *dir)
 	return (ft_strjoin(dir, "/"));
 }
 
-void	ft_dir_name(char *dir)
-{
-	int		i;
-	char	**tab;
-
-	i = 0;
-	tab = ft_strsplit(dir, '/');
-	while (tab[i + 1])
-	{
-		free(tab[i]);
-		i++;
-	}
-	ft_printf("%s", tab[i]);
-	free(tab[i]);
-	free(tab);
-}
-
-void	ft_process_directory(char *parent_dir, char *dir, t_options *ls)
+void		ft_process_directory(char *parent_dir, char *dir, t_options *ls)
 {
 	DIR				*dirp;
 	struct dirent	*entry;
@@ -99,14 +122,15 @@ void	ft_process_directory(char *parent_dir, char *dir, t_options *ls)
 	dirp = opendir(dir);
 	if (!dirp)
 	{
-		ft_dprintf(2, "ft_ls: ");
-		ft_dir_name(dir);
-		ft_dprintf(2, ": %s\n", strerror(errno));
-		free(dir);
+		ft_error(dir);
 		return ;
 	}
 	while ((entry = readdir(dirp)))
-		ft_lstadd(&lst, ft_lstnew(entry->d_name, ft_strlen(entry->d_name) + 1));
+	{
+		if (ls->a || entry->d_name[0] != '.')
+			ft_lstadd(&lst, ft_lstnew(entry->d_name,
+			ft_strlen(entry->d_name) + 1));
+	}
 	closedir(dirp);
 	if (ft_lstlen_ls(lst) > 1)
 		ls->r ? ft_lstrevsort_ls(lst) : ft_lstsort_ls(lst);

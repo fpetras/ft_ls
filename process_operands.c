@@ -6,23 +6,30 @@
 /*   By: fpetras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/20 13:33:31 by fpetras           #+#    #+#             */
-/*   Updated: 2017/12/29 09:04:05 by fpetras          ###   ########.fr       */
+/*   Updated: 2017/12/30 11:54:54 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	ft_process_operands(t_list *ops, t_options *ls)
+static void	ft_process_operands(t_list *ops, t_options *ls)
 {
 	int		nb_ops;
 	t_list	*tmp;
 
 	nb_ops = ft_lstlen_ls(ops);
 	tmp = NULL;
+	if (ls->l)
+		ft_padding_sizes_ops(ops, ls);
 	while (ops)
 	{
 		if (ft_is_valid(ops->content) && !ft_is_dir(ops->content))
-			ft_printf("%s\n", ops->content);
+		{
+			if (ls->l)
+				ft_print_long_format(ops->content, NULL, ls);
+			else
+				ft_printf("%s\n", ops->content);
+		}
 		else if (ft_is_dir(ops->content))
 		{
 			if (nb_ops > 1)
@@ -38,10 +45,11 @@ void	ft_process_operands(t_list *ops, t_options *ls)
 	}
 }
 
-void	ft_sort_operands(t_list *ops, t_options *ls)
+static void	ft_sort_operands(t_list *ops, t_options *ls)
 {
 	ft_lstsort_ls(ops);
 	ft_lstfilesort_ls(ops);
+	ft_lstinvalidsort_ls(ops);
 	ft_no_such_file_or_directory(ops);
 	if (ls->r)
 	{
@@ -52,7 +60,7 @@ void	ft_sort_operands(t_list *ops, t_options *ls)
 	ft_process_operands(ops, ls);
 }
 
-void	ft_get_operands(int i, int ac, char **av, t_options *ls)
+void		ft_get_operands(int i, int ac, char **av, t_options *ls)
 {
 	t_list *ops;
 

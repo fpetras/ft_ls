@@ -6,7 +6,7 @@
 #    By: fpetras <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/14 10:43:56 by fpetras           #+#    #+#              #
-#    Updated: 2017/12/21 15:10:34 by fpetras          ###   ########.fr        #
+#    Updated: 2017/12/30 11:33:38 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,10 @@ SRC =	main.c \
 		parse_options.c \
 		process_operands.c \
 		process_directory.c \
+		padding.c \
+		print_long_format.c \
 		utility_functions.c \
+		ft_unbr_len.c \
 		\
 		ft_lstlen_ls.c \
 		ft_lstsort_ls.c \
