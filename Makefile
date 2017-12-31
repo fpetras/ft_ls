@@ -6,7 +6,7 @@
 #    By: fpetras <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/14 10:43:56 by fpetras           #+#    #+#              #
-#    Updated: 2017/12/30 11:33:38 by fpetras          ###   ########.fr        #
+#    Updated: 2017/12/31 10:43:21 by fpetras          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,13 +17,17 @@ SRC =	main.c \
 		process_operands.c \
 		process_directory.c \
 		padding.c \
+		print_blocks.c \
 		print_long_format.c \
-		utility_functions.c \
+		long_format_functions.c \
+		file_mode_functions.c \
+		error_functions.c \
 		ft_unbr_len.c \
-		\
 		ft_lstlen_ls.c \
 		ft_lstsort_ls.c \
 		ft_lstrevsort_ls.c \
+		ft_lsttimesort_ls.c \
+		ft_lstrevtimesort_ls.c \
 		ft_lstfilesort_ls.c \
 		ft_lstinvalidsort_ls.c \
 		ft_lstfree_ls.c

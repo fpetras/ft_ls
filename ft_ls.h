@@ -6,7 +6,7 @@
 /*   By: fpetras <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 11:35:42 by fpetras           #+#    #+#             */
-/*   Updated: 2017/12/30 11:40:41 by fpetras          ###   ########.fr       */
+/*   Updated: 2017/12/31 15:17:44 by fpetras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef struct	s_options
 	int			usr_name;
 	int			grp_name;
 	int			size;
+	int			rdev_maj;
+	int			rdev_min;
 }				t_options;
 
 int				ft_parse_options(int ac, char **av, t_options *ls);
@@ -50,17 +52,30 @@ void			ft_process_directory(char *parent_dir, char *dir,
 				t_options *ls);
 void			ft_padding_sizes(t_list *lst, char *dir, t_options *ls);
 void			ft_padding_sizes_ops(t_list *lst, t_options *ls);
+void			ft_display_blocks(t_list *lst, char *dir);
 void			ft_print_long_format(char *entry, char *path, t_options *ls);
+void			ft_print_file_mode(mode_t mode);
+void			ft_print_permissions(mode_t mode);
+void			ft_padding(struct stat *buf, struct passwd *pwd,
+				struct group *grp, t_options *ls);
+void			ft_print_time(struct stat *buf);
+void			ft_print_link(char *entry, char *path_entry);
 int				ft_is_file(char *entry);
+int				ft_is_link(char *entry);
 int				ft_is_dir(char *entry);
 int				ft_is_invalid(char *entry);
 int				ft_is_valid(char *entry);
+void			ft_error(char *dir);
 void			ft_no_such_file_or_directory(t_list *ops);
 int				ft_unbr_len(uintmax_t value);
 
 size_t			ft_lstlen_ls(t_list *lst);
 t_list			*ft_lstsort_ls(t_list *lst);
 t_list			*ft_lstrevsort_ls(t_list *lst);
+t_list			*ft_lsttimesort_ls(t_list *lst, char *dir);
+t_list			*ft_lsttimesort_ops_ls(t_list *lst);
+t_list			*ft_lstrevtimesort_ls(t_list *lst, char *dir);
+t_list			*ft_lstrevtimesort_ops_ls(t_list *lst);
 t_list			*ft_lstfilesort_ls(t_list *lst);
 t_list			*ft_lstinvalidsort_ls(t_list *lst);
 void			ft_lstfree_ls(t_list *lst);
